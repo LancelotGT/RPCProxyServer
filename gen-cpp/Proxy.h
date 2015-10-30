@@ -4,53 +4,53 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#ifndef ProxyServer_H
-#define ProxyServer_H
+#ifndef Proxy_H
+#define Proxy_H
 
 #include <thrift/TDispatchProcessor.h>
 #include <thrift/async/TConcurrentClientSyncInfo.h>
-#include "me_types.h"
+#include "proxy_types.h"
 
-namespace RPC {
+namespace Proxy {
 
 #ifdef _WIN32
   #pragma warning( push )
   #pragma warning (disable : 4250 ) //inheriting methods via dominance 
 #endif
 
-class ProxyServerIf {
+class ProxyIf {
  public:
-  virtual ~ProxyServerIf() {}
+  virtual ~ProxyIf() {}
   virtual int32_t getCurrentTime() = 0;
 };
 
-class ProxyServerIfFactory {
+class ProxyIfFactory {
  public:
-  typedef ProxyServerIf Handler;
+  typedef ProxyIf Handler;
 
-  virtual ~ProxyServerIfFactory() {}
+  virtual ~ProxyIfFactory() {}
 
-  virtual ProxyServerIf* getHandler(const ::apache::thrift::TConnectionInfo& connInfo) = 0;
-  virtual void releaseHandler(ProxyServerIf* /* handler */) = 0;
+  virtual ProxyIf* getHandler(const ::apache::thrift::TConnectionInfo& connInfo) = 0;
+  virtual void releaseHandler(ProxyIf* /* handler */) = 0;
 };
 
-class ProxyServerIfSingletonFactory : virtual public ProxyServerIfFactory {
+class ProxyIfSingletonFactory : virtual public ProxyIfFactory {
  public:
-  ProxyServerIfSingletonFactory(const boost::shared_ptr<ProxyServerIf>& iface) : iface_(iface) {}
-  virtual ~ProxyServerIfSingletonFactory() {}
+  ProxyIfSingletonFactory(const boost::shared_ptr<ProxyIf>& iface) : iface_(iface) {}
+  virtual ~ProxyIfSingletonFactory() {}
 
-  virtual ProxyServerIf* getHandler(const ::apache::thrift::TConnectionInfo&) {
+  virtual ProxyIf* getHandler(const ::apache::thrift::TConnectionInfo&) {
     return iface_.get();
   }
-  virtual void releaseHandler(ProxyServerIf* /* handler */) {}
+  virtual void releaseHandler(ProxyIf* /* handler */) {}
 
  protected:
-  boost::shared_ptr<ProxyServerIf> iface_;
+  boost::shared_ptr<ProxyIf> iface_;
 };
 
-class ProxyServerNull : virtual public ProxyServerIf {
+class ProxyNull : virtual public ProxyIf {
  public:
-  virtual ~ProxyServerNull() {}
+  virtual ~ProxyNull() {}
   int32_t getCurrentTime() {
     int32_t _return = 0;
     return _return;
@@ -58,25 +58,25 @@ class ProxyServerNull : virtual public ProxyServerIf {
 };
 
 
-class ProxyServer_getCurrentTime_args {
+class Proxy_getCurrentTime_args {
  public:
 
-  ProxyServer_getCurrentTime_args(const ProxyServer_getCurrentTime_args&);
-  ProxyServer_getCurrentTime_args& operator=(const ProxyServer_getCurrentTime_args&);
-  ProxyServer_getCurrentTime_args() {
+  Proxy_getCurrentTime_args(const Proxy_getCurrentTime_args&);
+  Proxy_getCurrentTime_args& operator=(const Proxy_getCurrentTime_args&);
+  Proxy_getCurrentTime_args() {
   }
 
-  virtual ~ProxyServer_getCurrentTime_args() throw();
+  virtual ~Proxy_getCurrentTime_args() throw();
 
-  bool operator == (const ProxyServer_getCurrentTime_args & /* rhs */) const
+  bool operator == (const Proxy_getCurrentTime_args & /* rhs */) const
   {
     return true;
   }
-  bool operator != (const ProxyServer_getCurrentTime_args &rhs) const {
+  bool operator != (const Proxy_getCurrentTime_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const ProxyServer_getCurrentTime_args & ) const;
+  bool operator < (const Proxy_getCurrentTime_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -84,77 +84,77 @@ class ProxyServer_getCurrentTime_args {
 };
 
 
-class ProxyServer_getCurrentTime_pargs {
+class Proxy_getCurrentTime_pargs {
  public:
 
 
-  virtual ~ProxyServer_getCurrentTime_pargs() throw();
+  virtual ~Proxy_getCurrentTime_pargs() throw();
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _ProxyServer_getCurrentTime_result__isset {
-  _ProxyServer_getCurrentTime_result__isset() : success(false) {}
+typedef struct _Proxy_getCurrentTime_result__isset {
+  _Proxy_getCurrentTime_result__isset() : success(false) {}
   bool success :1;
-} _ProxyServer_getCurrentTime_result__isset;
+} _Proxy_getCurrentTime_result__isset;
 
-class ProxyServer_getCurrentTime_result {
+class Proxy_getCurrentTime_result {
  public:
 
-  ProxyServer_getCurrentTime_result(const ProxyServer_getCurrentTime_result&);
-  ProxyServer_getCurrentTime_result& operator=(const ProxyServer_getCurrentTime_result&);
-  ProxyServer_getCurrentTime_result() : success(0) {
+  Proxy_getCurrentTime_result(const Proxy_getCurrentTime_result&);
+  Proxy_getCurrentTime_result& operator=(const Proxy_getCurrentTime_result&);
+  Proxy_getCurrentTime_result() : success(0) {
   }
 
-  virtual ~ProxyServer_getCurrentTime_result() throw();
+  virtual ~Proxy_getCurrentTime_result() throw();
   int32_t success;
 
-  _ProxyServer_getCurrentTime_result__isset __isset;
+  _Proxy_getCurrentTime_result__isset __isset;
 
   void __set_success(const int32_t val);
 
-  bool operator == (const ProxyServer_getCurrentTime_result & rhs) const
+  bool operator == (const Proxy_getCurrentTime_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const ProxyServer_getCurrentTime_result &rhs) const {
+  bool operator != (const Proxy_getCurrentTime_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const ProxyServer_getCurrentTime_result & ) const;
+  bool operator < (const Proxy_getCurrentTime_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _ProxyServer_getCurrentTime_presult__isset {
-  _ProxyServer_getCurrentTime_presult__isset() : success(false) {}
+typedef struct _Proxy_getCurrentTime_presult__isset {
+  _Proxy_getCurrentTime_presult__isset() : success(false) {}
   bool success :1;
-} _ProxyServer_getCurrentTime_presult__isset;
+} _Proxy_getCurrentTime_presult__isset;
 
-class ProxyServer_getCurrentTime_presult {
+class Proxy_getCurrentTime_presult {
  public:
 
 
-  virtual ~ProxyServer_getCurrentTime_presult() throw();
+  virtual ~Proxy_getCurrentTime_presult() throw();
   int32_t* success;
 
-  _ProxyServer_getCurrentTime_presult__isset __isset;
+  _Proxy_getCurrentTime_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
-class ProxyServerClient : virtual public ProxyServerIf {
+class ProxyClient : virtual public ProxyIf {
  public:
-  ProxyServerClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
+  ProxyClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
-  ProxyServerClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
+  ProxyClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
     setProtocol(iprot,oprot);
   }
  private:
@@ -184,44 +184,44 @@ class ProxyServerClient : virtual public ProxyServerIf {
   ::apache::thrift::protocol::TProtocol* oprot_;
 };
 
-class ProxyServerProcessor : public ::apache::thrift::TDispatchProcessor {
+class ProxyProcessor : public ::apache::thrift::TDispatchProcessor {
  protected:
-  boost::shared_ptr<ProxyServerIf> iface_;
+  boost::shared_ptr<ProxyIf> iface_;
   virtual bool dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext);
  private:
-  typedef  void (ProxyServerProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
+  typedef  void (ProxyProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_getCurrentTime(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
-  ProxyServerProcessor(boost::shared_ptr<ProxyServerIf> iface) :
+  ProxyProcessor(boost::shared_ptr<ProxyIf> iface) :
     iface_(iface) {
-    processMap_["getCurrentTime"] = &ProxyServerProcessor::process_getCurrentTime;
+    processMap_["getCurrentTime"] = &ProxyProcessor::process_getCurrentTime;
   }
 
-  virtual ~ProxyServerProcessor() {}
+  virtual ~ProxyProcessor() {}
 };
 
-class ProxyServerProcessorFactory : public ::apache::thrift::TProcessorFactory {
+class ProxyProcessorFactory : public ::apache::thrift::TProcessorFactory {
  public:
-  ProxyServerProcessorFactory(const ::boost::shared_ptr< ProxyServerIfFactory >& handlerFactory) :
+  ProxyProcessorFactory(const ::boost::shared_ptr< ProxyIfFactory >& handlerFactory) :
       handlerFactory_(handlerFactory) {}
 
   ::boost::shared_ptr< ::apache::thrift::TProcessor > getProcessor(const ::apache::thrift::TConnectionInfo& connInfo);
 
  protected:
-  ::boost::shared_ptr< ProxyServerIfFactory > handlerFactory_;
+  ::boost::shared_ptr< ProxyIfFactory > handlerFactory_;
 };
 
-class ProxyServerMultiface : virtual public ProxyServerIf {
+class ProxyMultiface : virtual public ProxyIf {
  public:
-  ProxyServerMultiface(std::vector<boost::shared_ptr<ProxyServerIf> >& ifaces) : ifaces_(ifaces) {
+  ProxyMultiface(std::vector<boost::shared_ptr<ProxyIf> >& ifaces) : ifaces_(ifaces) {
   }
-  virtual ~ProxyServerMultiface() {}
+  virtual ~ProxyMultiface() {}
  protected:
-  std::vector<boost::shared_ptr<ProxyServerIf> > ifaces_;
-  ProxyServerMultiface() {}
-  void add(boost::shared_ptr<ProxyServerIf> iface) {
+  std::vector<boost::shared_ptr<ProxyIf> > ifaces_;
+  ProxyMultiface() {}
+  void add(boost::shared_ptr<ProxyIf> iface) {
     ifaces_.push_back(iface);
   }
  public:
@@ -239,12 +239,12 @@ class ProxyServerMultiface : virtual public ProxyServerIf {
 // The 'concurrent' client is a thread safe client that correctly handles
 // out of order responses.  It is slower than the regular client, so should
 // only be used when you need to share a connection among multiple threads
-class ProxyServerConcurrentClient : virtual public ProxyServerIf {
+class ProxyConcurrentClient : virtual public ProxyIf {
  public:
-  ProxyServerConcurrentClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
+  ProxyConcurrentClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
-  ProxyServerConcurrentClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
+  ProxyConcurrentClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
     setProtocol(iprot,oprot);
   }
  private:

@@ -1,7 +1,7 @@
 #!/usr/local/bin/thrift --gen cpp
 
-namespace cpp RPC
+namespace cpp Proxy
 
-service ProxyServer {
+service Proxy {
     i32 getCurrentTime()
 }

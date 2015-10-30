@@ -4,16 +4,16 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "ProxyServer.h"
+#include "Proxy.h"
 
-namespace RPC {
+namespace Proxy {
 
 
-ProxyServer_getCurrentTime_args::~ProxyServer_getCurrentTime_args() throw() {
+Proxy_getCurrentTime_args::~Proxy_getCurrentTime_args() throw() {
 }
 
 
-uint32_t ProxyServer_getCurrentTime_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Proxy_getCurrentTime_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -41,10 +41,10 @@ uint32_t ProxyServer_getCurrentTime_args::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-uint32_t ProxyServer_getCurrentTime_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Proxy_getCurrentTime_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("ProxyServer_getCurrentTime_args");
+  xfer += oprot->writeStructBegin("Proxy_getCurrentTime_args");
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -52,14 +52,14 @@ uint32_t ProxyServer_getCurrentTime_args::write(::apache::thrift::protocol::TPro
 }
 
 
-ProxyServer_getCurrentTime_pargs::~ProxyServer_getCurrentTime_pargs() throw() {
+Proxy_getCurrentTime_pargs::~Proxy_getCurrentTime_pargs() throw() {
 }
 
 
-uint32_t ProxyServer_getCurrentTime_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Proxy_getCurrentTime_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("ProxyServer_getCurrentTime_pargs");
+  xfer += oprot->writeStructBegin("Proxy_getCurrentTime_pargs");
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -67,11 +67,11 @@ uint32_t ProxyServer_getCurrentTime_pargs::write(::apache::thrift::protocol::TPr
 }
 
 
-ProxyServer_getCurrentTime_result::~ProxyServer_getCurrentTime_result() throw() {
+Proxy_getCurrentTime_result::~Proxy_getCurrentTime_result() throw() {
 }
 
 
-uint32_t ProxyServer_getCurrentTime_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Proxy_getCurrentTime_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -112,11 +112,11 @@ uint32_t ProxyServer_getCurrentTime_result::read(::apache::thrift::protocol::TPr
   return xfer;
 }
 
-uint32_t ProxyServer_getCurrentTime_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Proxy_getCurrentTime_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("ProxyServer_getCurrentTime_result");
+  xfer += oprot->writeStructBegin("Proxy_getCurrentTime_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
@@ -129,11 +129,11 @@ uint32_t ProxyServer_getCurrentTime_result::write(::apache::thrift::protocol::TP
 }
 
 
-ProxyServer_getCurrentTime_presult::~ProxyServer_getCurrentTime_presult() throw() {
+Proxy_getCurrentTime_presult::~Proxy_getCurrentTime_presult() throw() {
 }
 
 
-uint32_t ProxyServer_getCurrentTime_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Proxy_getCurrentTime_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -174,18 +174,18 @@ uint32_t ProxyServer_getCurrentTime_presult::read(::apache::thrift::protocol::TP
   return xfer;
 }
 
-int32_t ProxyServerClient::getCurrentTime()
+int32_t ProxyClient::getCurrentTime()
 {
   send_getCurrentTime();
   return recv_getCurrentTime();
 }
 
-void ProxyServerClient::send_getCurrentTime()
+void ProxyClient::send_getCurrentTime()
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("getCurrentTime", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  ProxyServer_getCurrentTime_pargs args;
+  Proxy_getCurrentTime_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -193,7 +193,7 @@ void ProxyServerClient::send_getCurrentTime()
   oprot_->getTransport()->flush();
 }
 
-int32_t ProxyServerClient::recv_getCurrentTime()
+int32_t ProxyClient::recv_getCurrentTime()
 {
 
   int32_t rseqid = 0;
@@ -219,7 +219,7 @@ int32_t ProxyServerClient::recv_getCurrentTime()
     iprot_->getTransport()->readEnd();
   }
   int32_t _return;
-  ProxyServer_getCurrentTime_presult result;
+  Proxy_getCurrentTime_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -231,7 +231,7 @@ int32_t ProxyServerClient::recv_getCurrentTime()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getCurrentTime failed: unknown result");
 }
 
-bool ProxyServerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
+bool ProxyProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
   if (pfn == processMap_.end()) {
@@ -250,34 +250,34 @@ bool ProxyServerProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* i
   return true;
 }
 
-void ProxyServerProcessor::process_getCurrentTime(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ProxyProcessor::process_getCurrentTime(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("ProxyServer.getCurrentTime", callContext);
+    ctx = this->eventHandler_->getContext("Proxy.getCurrentTime", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "ProxyServer.getCurrentTime");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Proxy.getCurrentTime");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "ProxyServer.getCurrentTime");
+    this->eventHandler_->preRead(ctx, "Proxy.getCurrentTime");
   }
 
-  ProxyServer_getCurrentTime_args args;
+  Proxy_getCurrentTime_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "ProxyServer.getCurrentTime", bytes);
+    this->eventHandler_->postRead(ctx, "Proxy.getCurrentTime", bytes);
   }
 
-  ProxyServer_getCurrentTime_result result;
+  Proxy_getCurrentTime_result result;
   try {
     result.success = iface_->getCurrentTime();
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "ProxyServer.getCurrentTime");
+      this->eventHandler_->handlerError(ctx, "Proxy.getCurrentTime");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -290,7 +290,7 @@ void ProxyServerProcessor::process_getCurrentTime(int32_t seqid, ::apache::thrif
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "ProxyServer.getCurrentTime");
+    this->eventHandler_->preWrite(ctx, "Proxy.getCurrentTime");
   }
 
   oprot->writeMessageBegin("getCurrentTime", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -300,30 +300,30 @@ void ProxyServerProcessor::process_getCurrentTime(int32_t seqid, ::apache::thrif
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "ProxyServer.getCurrentTime", bytes);
+    this->eventHandler_->postWrite(ctx, "Proxy.getCurrentTime", bytes);
   }
 }
 
-::boost::shared_ptr< ::apache::thrift::TProcessor > ProxyServerProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
-  ::apache::thrift::ReleaseHandler< ProxyServerIfFactory > cleanup(handlerFactory_);
-  ::boost::shared_ptr< ProxyServerIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
-  ::boost::shared_ptr< ::apache::thrift::TProcessor > processor(new ProxyServerProcessor(handler));
+::boost::shared_ptr< ::apache::thrift::TProcessor > ProxyProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
+  ::apache::thrift::ReleaseHandler< ProxyIfFactory > cleanup(handlerFactory_);
+  ::boost::shared_ptr< ProxyIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
+  ::boost::shared_ptr< ::apache::thrift::TProcessor > processor(new ProxyProcessor(handler));
   return processor;
 }
 
-int32_t ProxyServerConcurrentClient::getCurrentTime()
+int32_t ProxyConcurrentClient::getCurrentTime()
 {
   int32_t seqid = send_getCurrentTime();
   return recv_getCurrentTime(seqid);
 }
 
-int32_t ProxyServerConcurrentClient::send_getCurrentTime()
+int32_t ProxyConcurrentClient::send_getCurrentTime()
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("getCurrentTime", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  ProxyServer_getCurrentTime_pargs args;
+  Proxy_getCurrentTime_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -334,7 +334,7 @@ int32_t ProxyServerConcurrentClient::send_getCurrentTime()
   return cseqid;
 }
 
-int32_t ProxyServerConcurrentClient::recv_getCurrentTime(const int32_t seqid)
+int32_t ProxyConcurrentClient::recv_getCurrentTime(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -373,7 +373,7 @@ int32_t ProxyServerConcurrentClient::recv_getCurrentTime(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       int32_t _return;
-      ProxyServer_getCurrentTime_presult result;
+      Proxy_getCurrentTime_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();

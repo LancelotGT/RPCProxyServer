@@ -4,13 +4,14 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "me_types.h"
+#include "proxy_constants.h"
 
-#include <algorithm>
-#include <ostream>
+namespace Proxy {
 
-#include <thrift/TToString.h>
+const proxyConstants g_proxy_constants;
 
-namespace RPC {
+proxyConstants::proxyConstants() {
+}
 
 } // namespace
+

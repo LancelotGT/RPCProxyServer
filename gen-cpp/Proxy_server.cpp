@@ -20,6 +20,11 @@ using boost::shared_ptr;
 
 using namespace  ::Proxy;
 
+struct MemoryStruct {
+    char* memory;
+    size_t size;
+};
+
 class ProxyHandler : virtual public ProxyIf {
  public:
   ProxyHandler() {
@@ -43,13 +48,28 @@ class ProxyHandler : virtual public ProxyIf {
       CURL* curl;
       CURLcode res = CURLE_OK;
 
+      struct MemoryStruct chunk;
+      chunk.memory = (char*) malloc(1); /* will be grown as needed by realloc */
+      chunk.size = 0;
+
+      curl_global_init(CURL_GLOBAL_ALL);
       curl = curl_easy_init();
       if (curl)
       {
+          /* specify url to get */
           curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+          /* follow redirection */
           curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-          // curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &ProxyHandler::curlWriter);
+          /* send all data to writer callback */
+          curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &ProxyHandler::curlWriter);
+          /* pass chunk struct to above callback function */
+          curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*) &chunk);
+          /* in case some server require user-agent field in HTTP header */
+          curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+
           res = curl_easy_perform(curl);
+          
+          std::cout << (char*) chunk.memory << std::endl;
           if (res != CURLE_OK)
               fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
           curl_easy_cleanup(curl); 
@@ -58,12 +78,23 @@ class ProxyHandler : virtual public ProxyIf {
   }
 
  private:
-    size_t curlWriter(void* buf, size_t size, size_t nmemb)
+    static size_t curlWriter(void* buf, size_t size, size_t nmemb, void* userp)
     {
-        std::cout << "Received size: " << size << " nmemb: " << nmemb << std::endl;
-        if(std::cout.write(static_cast<char*>(buf), size))
-            return size * nmemb;
-        return 0;
+        size_t realsize = size * nmemb;
+        struct MemoryStruct *mem = (struct MemoryStruct *)userp;
+
+        mem->memory = (char*) realloc(mem->memory, mem->size + realsize + 1);
+        if(mem->memory == NULL) {
+            /* out of memory! */ 
+            printf("not enough memory (realloc returned NULL)\n");
+            return 0;
+        }
+
+        memcpy(&(mem->memory[mem->size]), buf, realsize);
+        mem->size += realsize;
+        mem->memory[mem->size] = 0;
+
+        return realsize;
     }
 
 };

@@ -6,6 +6,8 @@
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
+#include <time.h>
+#define EST (-4)
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -19,12 +21,18 @@ using namespace  ::Proxy;
 class ProxyHandler : virtual public ProxyIf {
  public:
   ProxyHandler() {
-    // Your initialization goes here
+      // Your initialization goes here
   }
 
   int32_t getCurrentTime() {
-    // Your implementation goes here
-    printf("getCurrentTime\n");
+      // Your implementation goes here
+      time_t rawtime;
+      struct tm * ptm;
+      time (&rawtime);
+      ptm = gmtime ( &rawtime );
+      puts ("Current time in Atlanta:");
+      printf ("Atlanta, GA (U.S.) :  %2d:%02d\n", (ptm->tm_hour + EST) % 24, ptm->tm_min);
+      return 0;
   }
 
 };

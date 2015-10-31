@@ -22,7 +22,7 @@ class ProxyIf {
  public:
   virtual ~ProxyIf() {}
   virtual void ping() = 0;
-  virtual int32_t getURL(const std::string& url) = 0;
+  virtual void getURL(std::string& _return, const std::string& url) = 0;
 };
 
 class ProxyIfFactory {
@@ -55,9 +55,8 @@ class ProxyNull : virtual public ProxyIf {
   void ping() {
     return;
   }
-  int32_t getURL(const std::string& /* url */) {
-    int32_t _return = 0;
-    return _return;
+  void getURL(std::string& /* _return */, const std::string& /* url */) {
+    return;
   }
 };
 
@@ -194,15 +193,15 @@ class Proxy_getURL_result {
 
   Proxy_getURL_result(const Proxy_getURL_result&);
   Proxy_getURL_result& operator=(const Proxy_getURL_result&);
-  Proxy_getURL_result() : success(0) {
+  Proxy_getURL_result() : success() {
   }
 
   virtual ~Proxy_getURL_result() throw();
-  int32_t success;
+  std::string success;
 
   _Proxy_getURL_result__isset __isset;
 
-  void __set_success(const int32_t val);
+  void __set_success(const std::string& val);
 
   bool operator == (const Proxy_getURL_result & rhs) const
   {
@@ -231,7 +230,7 @@ class Proxy_getURL_presult {
 
 
   virtual ~Proxy_getURL_presult() throw();
-  int32_t* success;
+  std::string* success;
 
   _Proxy_getURL_presult__isset __isset;
 
@@ -267,9 +266,9 @@ class ProxyClient : virtual public ProxyIf {
   void ping();
   void send_ping();
   void recv_ping();
-  int32_t getURL(const std::string& url);
+  void getURL(std::string& _return, const std::string& url);
   void send_getURL(const std::string& url);
-  int32_t recv_getURL();
+  void recv_getURL(std::string& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -329,13 +328,14 @@ class ProxyMultiface : virtual public ProxyIf {
     ifaces_[i]->ping();
   }
 
-  int32_t getURL(const std::string& url) {
+  void getURL(std::string& _return, const std::string& url) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->getURL(url);
+      ifaces_[i]->getURL(_return, url);
     }
-    return ifaces_[i]->getURL(url);
+    ifaces_[i]->getURL(_return, url);
+    return;
   }
 
 };
@@ -371,9 +371,9 @@ class ProxyConcurrentClient : virtual public ProxyIf {
   void ping();
   int32_t send_ping();
   void recv_ping(const int32_t seqid);
-  int32_t getURL(const std::string& url);
+  void getURL(std::string& _return, const std::string& url);
   int32_t send_getURL(const std::string& url);
-  int32_t recv_getURL(const int32_t seqid);
+  void recv_getURL(std::string& _return, const int32_t seqid);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

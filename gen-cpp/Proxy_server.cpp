@@ -42,7 +42,7 @@ class ProxyHandler : virtual public ProxyIf {
  
   }
 
-  int32_t getURL(const std::string& url) {
+  void getURL(std::string& _return, const std::string& url) {
       // Your implementation goes here
       std::cout << "Received request for url: " << url << std::endl;
       CURL* curl;
@@ -69,12 +69,12 @@ class ProxyHandler : virtual public ProxyIf {
 
           res = curl_easy_perform(curl);
           
-          std::cout << (char*) chunk.memory << std::endl;
           if (res != CURLE_OK)
               fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+
+          _return = std::string(chunk.memory);
           curl_easy_cleanup(curl); 
       }
-      return res;
   }
 
  private:

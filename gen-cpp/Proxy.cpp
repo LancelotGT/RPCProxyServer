@@ -249,8 +249,8 @@ uint32_t Proxy_getURL_result::read(::apache::thrift::protocol::TProtocol* iprot)
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->success);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->success);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -275,8 +275,8 @@ uint32_t Proxy_getURL_result::write(::apache::thrift::protocol::TProtocol* oprot
   xfer += oprot->writeStructBegin("Proxy_getURL_result");
 
   if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
-    xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
+    xfer += oprot->writeString(this->success);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -311,8 +311,8 @@ uint32_t Proxy_getURL_presult::read(::apache::thrift::protocol::TProtocol* iprot
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32((*(this->success)));
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString((*(this->success)));
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -382,10 +382,10 @@ void ProxyClient::recv_ping()
   return;
 }
 
-int32_t ProxyClient::getURL(const std::string& url)
+void ProxyClient::getURL(std::string& _return, const std::string& url)
 {
   send_getURL(url);
-  return recv_getURL();
+  recv_getURL(_return);
 }
 
 void ProxyClient::send_getURL(const std::string& url)
@@ -402,7 +402,7 @@ void ProxyClient::send_getURL(const std::string& url)
   oprot_->getTransport()->flush();
 }
 
-int32_t ProxyClient::recv_getURL()
+void ProxyClient::recv_getURL(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -427,7 +427,6 @@ int32_t ProxyClient::recv_getURL()
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  int32_t _return;
   Proxy_getURL_presult result;
   result.success = &_return;
   result.read(iprot_);
@@ -435,7 +434,8 @@ int32_t ProxyClient::recv_getURL()
   iprot_->getTransport()->readEnd();
 
   if (result.__isset.success) {
-    return _return;
+    // _return pointer has now been filled
+    return;
   }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getURL failed: unknown result");
 }
@@ -535,7 +535,7 @@ void ProxyProcessor::process_getURL(int32_t seqid, ::apache::thrift::protocol::T
 
   Proxy_getURL_result result;
   try {
-    result.success = iface_->getURL(args.url);
+    iface_->getURL(result.success, args.url);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -650,10 +650,10 @@ void ProxyConcurrentClient::recv_ping(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t ProxyConcurrentClient::getURL(const std::string& url)
+void ProxyConcurrentClient::getURL(std::string& _return, const std::string& url)
 {
   int32_t seqid = send_getURL(url);
-  return recv_getURL(seqid);
+  recv_getURL(_return, seqid);
 }
 
 int32_t ProxyConcurrentClient::send_getURL(const std::string& url)
@@ -674,7 +674,7 @@ int32_t ProxyConcurrentClient::send_getURL(const std::string& url)
   return cseqid;
 }
 
-int32_t ProxyConcurrentClient::recv_getURL(const int32_t seqid)
+void ProxyConcurrentClient::recv_getURL(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -712,7 +712,6 @@ int32_t ProxyConcurrentClient::recv_getURL(const int32_t seqid)
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      int32_t _return;
       Proxy_getURL_presult result;
       result.success = &_return;
       result.read(iprot_);
@@ -720,8 +719,9 @@ int32_t ProxyConcurrentClient::recv_getURL(const int32_t seqid)
       iprot_->getTransport()->readEnd();
 
       if (result.__isset.success) {
+        // _return pointer has now been filled
         sentry.commit();
-        return _return;
+        return;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getURL failed: unknown result");

@@ -20,7 +20,9 @@ int main(int argc, char **argv) {
     ProxyClient client(protocol);
     transport->open();
     client.ping();
-    client.getURL(argv[1]);
+    std::string response;
+    client.getURL(response, argv[1]);
+    std::cout << response << std::endl;
     transport->close();
 
     return 0;

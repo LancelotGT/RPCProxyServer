@@ -21,7 +21,8 @@ namespace Proxy {
 class ProxyIf {
  public:
   virtual ~ProxyIf() {}
-  virtual int32_t getCurrentTime() = 0;
+  virtual void ping() = 0;
+  virtual int32_t getURL(const std::string& url) = 0;
 };
 
 class ProxyIfFactory {
@@ -51,32 +52,35 @@ class ProxyIfSingletonFactory : virtual public ProxyIfFactory {
 class ProxyNull : virtual public ProxyIf {
  public:
   virtual ~ProxyNull() {}
-  int32_t getCurrentTime() {
+  void ping() {
+    return;
+  }
+  int32_t getURL(const std::string& /* url */) {
     int32_t _return = 0;
     return _return;
   }
 };
 
 
-class Proxy_getCurrentTime_args {
+class Proxy_ping_args {
  public:
 
-  Proxy_getCurrentTime_args(const Proxy_getCurrentTime_args&);
-  Proxy_getCurrentTime_args& operator=(const Proxy_getCurrentTime_args&);
-  Proxy_getCurrentTime_args() {
+  Proxy_ping_args(const Proxy_ping_args&);
+  Proxy_ping_args& operator=(const Proxy_ping_args&);
+  Proxy_ping_args() {
   }
 
-  virtual ~Proxy_getCurrentTime_args() throw();
+  virtual ~Proxy_ping_args() throw();
 
-  bool operator == (const Proxy_getCurrentTime_args & /* rhs */) const
+  bool operator == (const Proxy_ping_args & /* rhs */) const
   {
     return true;
   }
-  bool operator != (const Proxy_getCurrentTime_args &rhs) const {
+  bool operator != (const Proxy_ping_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Proxy_getCurrentTime_args & ) const;
+  bool operator < (const Proxy_ping_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -84,66 +88,152 @@ class Proxy_getCurrentTime_args {
 };
 
 
-class Proxy_getCurrentTime_pargs {
+class Proxy_ping_pargs {
  public:
 
 
-  virtual ~Proxy_getCurrentTime_pargs() throw();
+  virtual ~Proxy_ping_pargs() throw();
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _Proxy_getCurrentTime_result__isset {
-  _Proxy_getCurrentTime_result__isset() : success(false) {}
-  bool success :1;
-} _Proxy_getCurrentTime_result__isset;
 
-class Proxy_getCurrentTime_result {
+class Proxy_ping_result {
  public:
 
-  Proxy_getCurrentTime_result(const Proxy_getCurrentTime_result&);
-  Proxy_getCurrentTime_result& operator=(const Proxy_getCurrentTime_result&);
-  Proxy_getCurrentTime_result() : success(0) {
+  Proxy_ping_result(const Proxy_ping_result&);
+  Proxy_ping_result& operator=(const Proxy_ping_result&);
+  Proxy_ping_result() {
   }
 
-  virtual ~Proxy_getCurrentTime_result() throw();
+  virtual ~Proxy_ping_result() throw();
+
+  bool operator == (const Proxy_ping_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Proxy_ping_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Proxy_ping_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Proxy_ping_presult {
+ public:
+
+
+  virtual ~Proxy_ping_presult() throw();
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _Proxy_getURL_args__isset {
+  _Proxy_getURL_args__isset() : url(false) {}
+  bool url :1;
+} _Proxy_getURL_args__isset;
+
+class Proxy_getURL_args {
+ public:
+
+  Proxy_getURL_args(const Proxy_getURL_args&);
+  Proxy_getURL_args& operator=(const Proxy_getURL_args&);
+  Proxy_getURL_args() : url() {
+  }
+
+  virtual ~Proxy_getURL_args() throw();
+  std::string url;
+
+  _Proxy_getURL_args__isset __isset;
+
+  void __set_url(const std::string& val);
+
+  bool operator == (const Proxy_getURL_args & rhs) const
+  {
+    if (!(url == rhs.url))
+      return false;
+    return true;
+  }
+  bool operator != (const Proxy_getURL_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Proxy_getURL_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Proxy_getURL_pargs {
+ public:
+
+
+  virtual ~Proxy_getURL_pargs() throw();
+  const std::string* url;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Proxy_getURL_result__isset {
+  _Proxy_getURL_result__isset() : success(false) {}
+  bool success :1;
+} _Proxy_getURL_result__isset;
+
+class Proxy_getURL_result {
+ public:
+
+  Proxy_getURL_result(const Proxy_getURL_result&);
+  Proxy_getURL_result& operator=(const Proxy_getURL_result&);
+  Proxy_getURL_result() : success(0) {
+  }
+
+  virtual ~Proxy_getURL_result() throw();
   int32_t success;
 
-  _Proxy_getCurrentTime_result__isset __isset;
+  _Proxy_getURL_result__isset __isset;
 
   void __set_success(const int32_t val);
 
-  bool operator == (const Proxy_getCurrentTime_result & rhs) const
+  bool operator == (const Proxy_getURL_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const Proxy_getCurrentTime_result &rhs) const {
+  bool operator != (const Proxy_getURL_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Proxy_getCurrentTime_result & ) const;
+  bool operator < (const Proxy_getURL_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _Proxy_getCurrentTime_presult__isset {
-  _Proxy_getCurrentTime_presult__isset() : success(false) {}
+typedef struct _Proxy_getURL_presult__isset {
+  _Proxy_getURL_presult__isset() : success(false) {}
   bool success :1;
-} _Proxy_getCurrentTime_presult__isset;
+} _Proxy_getURL_presult__isset;
 
-class Proxy_getCurrentTime_presult {
+class Proxy_getURL_presult {
  public:
 
 
-  virtual ~Proxy_getCurrentTime_presult() throw();
+  virtual ~Proxy_getURL_presult() throw();
   int32_t* success;
 
-  _Proxy_getCurrentTime_presult__isset __isset;
+  _Proxy_getURL_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -174,9 +264,12 @@ class ProxyClient : virtual public ProxyIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t getCurrentTime();
-  void send_getCurrentTime();
-  int32_t recv_getCurrentTime();
+  void ping();
+  void send_ping();
+  void recv_ping();
+  int32_t getURL(const std::string& url);
+  void send_getURL(const std::string& url);
+  int32_t recv_getURL();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -192,11 +285,13 @@ class ProxyProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (ProxyProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
-  void process_getCurrentTime(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_getURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ProxyProcessor(boost::shared_ptr<ProxyIf> iface) :
     iface_(iface) {
-    processMap_["getCurrentTime"] = &ProxyProcessor::process_getCurrentTime;
+    processMap_["ping"] = &ProxyProcessor::process_ping;
+    processMap_["getURL"] = &ProxyProcessor::process_getURL;
   }
 
   virtual ~ProxyProcessor() {}
@@ -225,13 +320,22 @@ class ProxyMultiface : virtual public ProxyIf {
     ifaces_.push_back(iface);
   }
  public:
-  int32_t getCurrentTime() {
+  void ping() {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->getCurrentTime();
+      ifaces_[i]->ping();
     }
-    return ifaces_[i]->getCurrentTime();
+    ifaces_[i]->ping();
+  }
+
+  int32_t getURL(const std::string& url) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->getURL(url);
+    }
+    return ifaces_[i]->getURL(url);
   }
 
 };
@@ -264,9 +368,12 @@ class ProxyConcurrentClient : virtual public ProxyIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t getCurrentTime();
-  int32_t send_getCurrentTime();
-  int32_t recv_getCurrentTime(const int32_t seqid);
+  void ping();
+  int32_t send_ping();
+  void recv_ping(const int32_t seqid);
+  int32_t getURL(const std::string& url);
+  int32_t send_getURL(const std::string& url);
+  int32_t recv_getURL(const int32_t seqid);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

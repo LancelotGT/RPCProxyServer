@@ -9,11 +9,11 @@
 namespace Proxy {
 
 
-Proxy_getCurrentTime_args::~Proxy_getCurrentTime_args() throw() {
+Proxy_ping_args::~Proxy_ping_args() throw() {
 }
 
 
-uint32_t Proxy_getCurrentTime_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Proxy_ping_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -41,10 +41,10 @@ uint32_t Proxy_getCurrentTime_args::read(::apache::thrift::protocol::TProtocol* 
   return xfer;
 }
 
-uint32_t Proxy_getCurrentTime_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Proxy_ping_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Proxy_getCurrentTime_args");
+  xfer += oprot->writeStructBegin("Proxy_ping_args");
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -52,14 +52,14 @@ uint32_t Proxy_getCurrentTime_args::write(::apache::thrift::protocol::TProtocol*
 }
 
 
-Proxy_getCurrentTime_pargs::~Proxy_getCurrentTime_pargs() throw() {
+Proxy_ping_pargs::~Proxy_ping_pargs() throw() {
 }
 
 
-uint32_t Proxy_getCurrentTime_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Proxy_ping_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Proxy_getCurrentTime_pargs");
+  xfer += oprot->writeStructBegin("Proxy_ping_pargs");
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -67,11 +67,167 @@ uint32_t Proxy_getCurrentTime_pargs::write(::apache::thrift::protocol::TProtocol
 }
 
 
-Proxy_getCurrentTime_result::~Proxy_getCurrentTime_result() throw() {
+Proxy_ping_result::~Proxy_ping_result() throw() {
 }
 
 
-uint32_t Proxy_getCurrentTime_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Proxy_ping_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Proxy_ping_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("Proxy_ping_result");
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Proxy_ping_presult::~Proxy_ping_presult() throw() {
+}
+
+
+uint32_t Proxy_ping_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    xfer += iprot->skip(ftype);
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+Proxy_getURL_args::~Proxy_getURL_args() throw() {
+}
+
+
+uint32_t Proxy_getURL_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->url);
+          this->__isset.url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Proxy_getURL_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Proxy_getURL_args");
+
+  xfer += oprot->writeFieldBegin("url", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->url);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Proxy_getURL_pargs::~Proxy_getURL_pargs() throw() {
+}
+
+
+uint32_t Proxy_getURL_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Proxy_getURL_pargs");
+
+  xfer += oprot->writeFieldBegin("url", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->url)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+Proxy_getURL_result::~Proxy_getURL_result() throw() {
+}
+
+
+uint32_t Proxy_getURL_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -112,11 +268,11 @@ uint32_t Proxy_getCurrentTime_result::read(::apache::thrift::protocol::TProtocol
   return xfer;
 }
 
-uint32_t Proxy_getCurrentTime_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Proxy_getURL_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("Proxy_getCurrentTime_result");
+  xfer += oprot->writeStructBegin("Proxy_getURL_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
@@ -129,11 +285,11 @@ uint32_t Proxy_getCurrentTime_result::write(::apache::thrift::protocol::TProtoco
 }
 
 
-Proxy_getCurrentTime_presult::~Proxy_getCurrentTime_presult() throw() {
+Proxy_getURL_presult::~Proxy_getURL_presult() throw() {
 }
 
 
-uint32_t Proxy_getCurrentTime_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Proxy_getURL_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -174,18 +330,18 @@ uint32_t Proxy_getCurrentTime_presult::read(::apache::thrift::protocol::TProtoco
   return xfer;
 }
 
-int32_t ProxyClient::getCurrentTime()
+void ProxyClient::ping()
 {
-  send_getCurrentTime();
-  return recv_getCurrentTime();
+  send_ping();
+  recv_ping();
 }
 
-void ProxyClient::send_getCurrentTime()
+void ProxyClient::send_ping()
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("getCurrentTime", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("ping", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  Proxy_getCurrentTime_pargs args;
+  Proxy_ping_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -193,7 +349,7 @@ void ProxyClient::send_getCurrentTime()
   oprot_->getTransport()->flush();
 }
 
-int32_t ProxyClient::recv_getCurrentTime()
+void ProxyClient::recv_ping()
 {
 
   int32_t rseqid = 0;
@@ -213,13 +369,66 @@ int32_t ProxyClient::recv_getCurrentTime()
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("getCurrentTime") != 0) {
+  if (fname.compare("ping") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  Proxy_ping_presult result;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  return;
+}
+
+int32_t ProxyClient::getURL(const std::string& url)
+{
+  send_getURL(url);
+  return recv_getURL();
+}
+
+void ProxyClient::send_getURL(const std::string& url)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("getURL", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Proxy_getURL_pargs args;
+  args.url = &url;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t ProxyClient::recv_getURL()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("getURL") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
   int32_t _return;
-  Proxy_getCurrentTime_presult result;
+  Proxy_getURL_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -228,7 +437,7 @@ int32_t ProxyClient::recv_getCurrentTime()
   if (result.__isset.success) {
     return _return;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getCurrentTime failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getURL failed: unknown result");
 }
 
 bool ProxyProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -250,38 +459,37 @@ bool ProxyProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, 
   return true;
 }
 
-void ProxyProcessor::process_getCurrentTime(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void ProxyProcessor::process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("Proxy.getCurrentTime", callContext);
+    ctx = this->eventHandler_->getContext("Proxy.ping", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Proxy.getCurrentTime");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Proxy.ping");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "Proxy.getCurrentTime");
+    this->eventHandler_->preRead(ctx, "Proxy.ping");
   }
 
-  Proxy_getCurrentTime_args args;
+  Proxy_ping_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "Proxy.getCurrentTime", bytes);
+    this->eventHandler_->postRead(ctx, "Proxy.ping", bytes);
   }
 
-  Proxy_getCurrentTime_result result;
+  Proxy_ping_result result;
   try {
-    result.success = iface_->getCurrentTime();
-    result.__isset.success = true;
+    iface_->ping();
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "Proxy.getCurrentTime");
+      this->eventHandler_->handlerError(ctx, "Proxy.ping");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("getCurrentTime", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("ping", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -290,17 +498,71 @@ void ProxyProcessor::process_getCurrentTime(int32_t seqid, ::apache::thrift::pro
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "Proxy.getCurrentTime");
+    this->eventHandler_->preWrite(ctx, "Proxy.ping");
   }
 
-  oprot->writeMessageBegin("getCurrentTime", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("ping", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "Proxy.getCurrentTime", bytes);
+    this->eventHandler_->postWrite(ctx, "Proxy.ping", bytes);
+  }
+}
+
+void ProxyProcessor::process_getURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("Proxy.getURL", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "Proxy.getURL");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "Proxy.getURL");
+  }
+
+  Proxy_getURL_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "Proxy.getURL", bytes);
+  }
+
+  Proxy_getURL_result result;
+  try {
+    result.success = iface_->getURL(args.url);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "Proxy.getURL");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("getURL", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "Proxy.getURL");
+  }
+
+  oprot->writeMessageBegin("getURL", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "Proxy.getURL", bytes);
   }
 }
 
@@ -311,19 +573,19 @@ void ProxyProcessor::process_getCurrentTime(int32_t seqid, ::apache::thrift::pro
   return processor;
 }
 
-int32_t ProxyConcurrentClient::getCurrentTime()
+void ProxyConcurrentClient::ping()
 {
-  int32_t seqid = send_getCurrentTime();
-  return recv_getCurrentTime(seqid);
+  int32_t seqid = send_ping();
+  recv_ping(seqid);
 }
 
-int32_t ProxyConcurrentClient::send_getCurrentTime()
+int32_t ProxyConcurrentClient::send_ping()
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
-  oprot_->writeMessageBegin("getCurrentTime", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("ping", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  Proxy_getCurrentTime_pargs args;
+  Proxy_ping_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -334,7 +596,7 @@ int32_t ProxyConcurrentClient::send_getCurrentTime()
   return cseqid;
 }
 
-int32_t ProxyConcurrentClient::recv_getCurrentTime(const int32_t seqid)
+void ProxyConcurrentClient::recv_ping(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -363,7 +625,85 @@ int32_t ProxyConcurrentClient::recv_getCurrentTime(const int32_t seqid)
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
       }
-      if (fname.compare("getCurrentTime") != 0) {
+      if (fname.compare("ping") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      Proxy_ping_presult result;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      sentry.commit();
+      return;
+    }
+    // seqid != rseqid
+    this->sync_.updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_.waitForWork(seqid);
+  } // end while(true)
+}
+
+int32_t ProxyConcurrentClient::getURL(const std::string& url)
+{
+  int32_t seqid = send_getURL(url);
+  return recv_getURL(seqid);
+}
+
+int32_t ProxyConcurrentClient::send_getURL(const std::string& url)
+{
+  int32_t cseqid = this->sync_.generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
+  oprot_->writeMessageBegin("getURL", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  Proxy_getURL_pargs args;
+  args.url = &url;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+int32_t ProxyConcurrentClient::recv_getURL(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(&this->sync_, seqid);
+
+  while(true) {
+    if(!this->sync_.getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("getURL") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
@@ -373,7 +713,7 @@ int32_t ProxyConcurrentClient::recv_getCurrentTime(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       int32_t _return;
-      Proxy_getCurrentTime_presult result;
+      Proxy_getURL_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -384,7 +724,7 @@ int32_t ProxyConcurrentClient::recv_getCurrentTime(const int32_t seqid)
         return _return;
       }
       // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getCurrentTime failed: unknown result");
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getURL failed: unknown result");
     }
     // seqid != rseqid
     this->sync_.updatePending(fname, mtype, rseqid);

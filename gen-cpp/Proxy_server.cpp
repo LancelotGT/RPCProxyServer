@@ -7,7 +7,9 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <time.h>
+#include <curl/curl.h>
 #define EST (-4)
+#define TIMEOUT 10
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -21,19 +23,48 @@ using namespace  ::Proxy;
 class ProxyHandler : virtual public ProxyIf {
  public:
   ProxyHandler() {
-      // Your initialization goes here
+    // Your initialization goes here
   }
 
-  int32_t getCurrentTime() {
-      // Your implementation goes here
+  void ping() {
+    // Your implementation goes here
       time_t rawtime;
       struct tm * ptm;
       time (&rawtime);
       ptm = gmtime ( &rawtime );
       puts ("Current time in Atlanta:");
       printf ("Atlanta, GA (U.S.) :  %2d:%02d\n", (ptm->tm_hour + EST) % 24, ptm->tm_min);
-      return 0;
+ 
   }
+
+  int32_t getURL(const std::string& url) {
+      // Your implementation goes here
+      std::cout << "Received request for url: " << url << std::endl;
+      CURL* curl;
+      CURLcode res = CURLE_OK;
+
+      curl = curl_easy_init();
+      if (curl)
+      {
+          curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+          curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+          // curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &ProxyHandler::curlWriter);
+          res = curl_easy_perform(curl);
+          if (res != CURLE_OK)
+              fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+          curl_easy_cleanup(curl); 
+      }
+      return res;
+  }
+
+ private:
+    size_t curlWriter(void* buf, size_t size, size_t nmemb)
+    {
+        std::cout << "Received size: " << size << " nmemb: " << nmemb << std::endl;
+        if(std::cout.write(static_cast<char*>(buf), size))
+            return size * nmemb;
+        return 0;
+    }
 
 };
 

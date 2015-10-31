@@ -3,5 +3,6 @@
 namespace cpp Proxy
 
 service Proxy {
-    i32 getCurrentTime()
+    void ping()
+    i32 getURL(1:string url)
 }

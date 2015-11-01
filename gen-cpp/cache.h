@@ -10,8 +10,8 @@
 using namespace std;
 
 void cache_init(size_t capacity, size_t min_entry_size);
-int set(string key, string value, size_t val_size);
-void* get(string key, size_t* val_size);
+int cache_set(const string& key, string& value);
+int cache_get(const string& key, string& response);
 int cache_memused();
 void cache_destroy();
 

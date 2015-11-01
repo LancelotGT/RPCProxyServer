@@ -8,6 +8,7 @@
 #include <thrift/transport/TBufferTransports.h>
 #include <time.h>
 #include <curl/curl.h>
+#include "cache.h"
 #define EST (-4)
 #define TIMEOUT 10
 
@@ -45,6 +46,13 @@ class ProxyHandler : virtual public ProxyIf {
   void getURL(std::string& _return, const std::string& url) {
       // Your implementation goes here
       std::cout << "Received request for url: " << url << std::endl;
+
+      if (cache_get(url, _return) == 0)
+      {
+          std::cout<< "Cache hit. Forward contents from web cache." << std::endl;
+          return; 
+      }
+
       CURL* curl;
       CURLcode res = CURLE_OK;
 
@@ -73,6 +81,7 @@ class ProxyHandler : virtual public ProxyIf {
               fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
 
           _return = std::string(chunk.memory);
+          cache_set(url, _return);
           curl_easy_cleanup(curl); 
       }
   }
@@ -100,15 +109,26 @@ class ProxyHandler : virtual public ProxyIf {
 };
 
 int main(int argc, char **argv) {
-  int port = 9090;
-  shared_ptr<ProxyHandler> handler(new ProxyHandler());
-  shared_ptr<TProcessor> processor(new ProxyProcessor(handler));
-  shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    if (argc != 3)
+    {
+        std::cout << "usage: " << argv[0] << " capacity min_entry_size";
+        exit(1);
+    }
 
-  TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-  server.serve();
-  return 0;
+    size_t capacity = atoi(argv[1]);
+    size_t min_entry_size = atoi(argv[2]);
+
+    cache_init(capacity, min_entry_size);
+
+    int port = 9090;
+    shared_ptr<ProxyHandler> handler(new ProxyHandler());
+    shared_ptr<TProcessor> processor(new ProxyProcessor(handler));
+    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+
+    TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+    server.serve();
+    return 0;
 }
 

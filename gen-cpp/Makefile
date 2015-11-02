@@ -1,4 +1,4 @@
-GEN_SRC := Proxy.cpp proxy_constants.cpp proxy_types.cpp random_cache.cpp
+GEN_SRC := Proxy.cpp proxy_constants.cpp proxy_types.cpp
 GEN_OBJ := $(patsubst %.cpp,%.o, $(GEN_SRC))
 CPPFLAGS := -g -Wall -g3
 
@@ -9,16 +9,19 @@ INC := -I$(THRIFT_DIR) -I$(BOOST_DIR)
 
 .PHONY: all clean
 
-all: Proxy_server Proxy_client
+all: random_server LRU_server Proxy_client
 
 %.o: %.cpp
 	        $(CXX) $(CPPFLAGS) -DHAVE_INTTYPES_H -DHAVE_NETINET_IN_H $(INC) -c $< -o $@
 
-Proxy_server: Proxy_server.o $(GEN_OBJ)
+random_server: Proxy_server.o $(GEN_OBJ) random_cache.cpp
 	        $(CXX) $(CPPFLAGS) $^ -o $@ -L/usr/local/lib -L/usr/lib/x86_64-linux-gnu -lthrift -lcurl
 
+LRU_server: Proxy_server.o $(GEN_OBJ) LRU_cache.cpp
+	        $(CXX) $(CPPFLAGS) $^ -o $@ -L/usr/local/lib -L/usr/lib/x86_64-linux-gnu -lthrift -lcurl
+ 
 Proxy_client: Proxy_client.o $(GEN_OBJ)
 	        $(CXX) $(CPPFLAGS) $^ -o $@ -L/usr/local/lib -lthrift
 
 clean:
-	        $(RM) *.o proxy_server proxy_client
+	        $(RM) *.o random_server LRU_server proxy_client

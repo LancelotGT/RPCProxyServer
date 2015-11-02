@@ -4,8 +4,6 @@
 #include <map>
 #include <stack>
 #include <list>
-#include <sys/time.h>
-#include <time.h>
 #include "cache.h"
 
 /* global data section */
@@ -15,11 +13,10 @@ static int N; /* maximum number of elements in cache */
 static int memused;
 static string* contents;
 static string* urls;
+static list<int>::iterator* iters;
 static map<string, int> lookupTable;
 static stack<int> ids;
-static list<int> rndq;
-
-static int get_random_id();
+static list<int> lru_list;
 
 void cache_init(size_t c, size_t min_size)
 {
@@ -31,10 +28,12 @@ void cache_init(size_t c, size_t min_size)
     /* initialize data structure */
     contents = new string[N];
     urls = new string[N];
+
+    /* keep a pointer to lru linked list */
+    iters = new list<int>::iterator[N];
+
     for (int i = N - 1; i >= 0; i--)
         ids.push(i);
-
-    srand(time(NULL));
 }
 
 int cache_set(const string& key, string& value)
@@ -50,7 +49,8 @@ int cache_set(const string& key, string& value)
     /* evict entry if exceeding capacity */
     while (memused + val_size > capacity)
     {
-        int _id = get_random_id();
+        int _id = lru_list.back();
+        lru_list.pop_back();
         int _size = contents[_id].size();
 
         /* dealloc entries on urls and contents */
@@ -65,6 +65,7 @@ int cache_set(const string& key, string& value)
         memused -= _size;
         contents[_id] = "";
         urls[_id] = "";
+        iters[_id] = list<int>::iterator(); /* point to a dummy iterator */
     }         
 
     /* set the new entry */
@@ -73,11 +74,13 @@ int cache_set(const string& key, string& value)
     contents[id] = string(value);
     urls[id] = string(key); 
     lookupTable[key] = id;
-    rndq.push_front(id);
+    lru_list.push_front(id);
+    iters[id] = lru_list.begin();
     memused += val_size;
 
-    for (list<int>::iterator it = rndq.begin(); it != rndq.end(); it++)
-        cout << *it << " " << urls[*it] << endl;
+    for (list<int>::iterator it = iters[id]; it != lru_list.end(); it++)
+         cout << *it << " " << urls[*it] << endl;
+        
     return 0;
 }
 
@@ -87,8 +90,13 @@ int cache_get(const string& key, string& response)
         return -1;
     int id = lookupTable[key];
     response = contents[id];
-    for (list<int>::iterator it = rndq.begin(); it != rndq.end(); it++)
-        cout << *it << " " << urls[*it] << endl; 
+
+    /* erase the id in lru_list and move it to the front */
+    lru_list.erase(iters[id]);
+    lru_list.push_front(id);
+    iters[id] = lru_list.begin();
+    for (list<int>::iterator it = iters[id]; it != lru_list.end(); it++)
+         cout << *it << " " << urls[*it] << endl; 
     return 0;
 }
 
@@ -101,16 +109,5 @@ void cache_destroy()
 {
     delete[] contents;
     delete[] urls;
-}
-
-static int get_random_id()
-{
-    int size = rndq.size();
-    int ind = rand() % size;
-    list<int>::iterator it = rndq.begin();
-    for (int i = 0; i < ind; i++)
-        it++;
-    int id = int(*it);
-    rndq.erase(it);
-    return id;
+    delete[] iters;
 }

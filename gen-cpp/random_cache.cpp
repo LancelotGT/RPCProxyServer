@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include <stack>
-#include <list>
+#include <deque>
 #include <sys/time.h>
 #include <time.h>
 #include "cache.h"
@@ -17,9 +17,9 @@ static string* contents;
 static string* urls;
 static map<string, int> lookupTable;
 static stack<int> ids;
-static list<int> rndq;
+static deque<int> rndq;
 
-static int get_random_id();
+static int pop_random_id();
 
 void cache_init(size_t c, size_t min_size)
 {
@@ -50,7 +50,7 @@ int cache_set(const string& key, string& value)
     /* evict entry if exceeding capacity */
     while (memused + val_size > capacity)
     {
-        int _id = get_random_id();
+        int _id = pop_random_id();
         int _size = contents[_id].size();
 
         /* dealloc entries on urls and contents */
@@ -76,7 +76,7 @@ int cache_set(const string& key, string& value)
     rndq.push_front(id);
     memused += val_size;
 
-    for (list<int>::iterator it = rndq.begin(); it != rndq.end(); it++)
+    for (deque<int>::iterator it = rndq.begin(); it != rndq.end(); it++)
         cout << *it << " " << urls[*it] << endl;
     return 0;
 }
@@ -87,7 +87,7 @@ int cache_get(const string& key, string& response)
         return -1;
     int id = lookupTable[key];
     response = contents[id];
-    for (list<int>::iterator it = rndq.begin(); it != rndq.end(); it++)
+    for (deque<int>::iterator it = rndq.begin(); it != rndq.end(); it++)
         cout << *it << " " << urls[*it] << endl; 
     return 0;
 }
@@ -103,14 +103,10 @@ void cache_destroy()
     delete[] urls;
 }
 
-static int get_random_id()
+static int pop_random_id()
 {
-    int size = rndq.size();
-    int ind = rand() % size;
-    list<int>::iterator it = rndq.begin();
-    for (int i = 0; i < ind; i++)
-        it++;
-    int id = int(*it);
-    rndq.erase(it);
+    int ind = rand() % rndq.size();
+    int id = rndq[ind];
+    rndq.erase(rndq.begin() + ind);
     return id;
 }

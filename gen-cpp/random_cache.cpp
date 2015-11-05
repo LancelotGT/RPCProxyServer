@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
-#include <map>
+#include <boost/unordered_map.hpp>
 #include <stack>
 #include <deque>
 #include <sys/time.h>
@@ -15,7 +15,7 @@ static int N; /* maximum number of elements in cache */
 static int memused;
 static string* contents;
 static string* urls;
-static map<string, int> lookupTable;
+static boost::unordered_map<string, int> lookupTable;
 static stack<int> ids;
 static deque<int> rndq;
 

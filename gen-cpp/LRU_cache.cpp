@@ -1,9 +1,9 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
-#include <map>
 #include <stack>
 #include <list>
+#include <boost/unordered_map.hpp>
 #include "cache.h"
 
 /* global data section */
@@ -14,7 +14,7 @@ static int memused;
 static string* contents;
 static string* urls;
 static list<int>::iterator* iters;
-static map<string, int> lookupTable;
+static boost::unordered_map<string, int> lookupTable;
 static stack<int> ids;
 static list<int> lru_list;
 

@@ -16,7 +16,7 @@ using namespace apache::thrift::transport;
 using namespace Proxy;
 using namespace std;
 
-#define MAXREQS 100
+#define MAXREQS 500
 
 int main(int argc, char **argv) {
     if (argc != 4)

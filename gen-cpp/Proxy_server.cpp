@@ -28,12 +28,14 @@ struct MemoryStruct {
 };
 
 static int cache_misses;
+static int request_num;
 
 class ProxyHandler : virtual public ProxyIf {
  public:
   ProxyHandler() {
     // Your initialization goes here
       cache_misses = 0;
+      request_num = 0;
   }
 
   void ping() {
@@ -49,7 +51,7 @@ class ProxyHandler : virtual public ProxyIf {
 
   void getURL(std::string& _return, const std::string& url) {
       // Your implementation goes here
-      std::cout << "Received request for url: " << url << std::endl;
+      std::cout << request_num++ << " received request for url: " << url << std::endl;
 
       if (cache_get(url, _return) == 0)
       {

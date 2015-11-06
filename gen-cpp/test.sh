@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#HOSTNAME=192.168.0.105
-HOSTNAME=localhost
+HOSTNAME=192.168.0.107
 FILENAME=urls.txt
 
 for DIST in uniform normal  

@@ -4,6 +4,7 @@
 #include <transport/TBufferTransports.h>
 #include <protocol/TBinaryProtocol.h>
 #include <fstream>
+#include <iostream>
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;

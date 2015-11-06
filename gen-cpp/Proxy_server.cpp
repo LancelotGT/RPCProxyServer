@@ -8,6 +8,7 @@
 #include <thrift/transport/TBufferTransports.h>
 #include <time.h>
 #include <curl/curl.h>
+#include <iostream>
 #include "cache.h"
 #define EST (-4)
 #define TIMEOUT 10

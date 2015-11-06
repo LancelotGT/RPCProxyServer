@@ -1,7 +1,6 @@
 GEN_SRC := Proxy.cpp proxy_constants.cpp proxy_types.cpp
 GEN_OBJ := $(patsubst %.cpp,%.o, $(GEN_SRC))
-CPPFLAGS := -g -Wall -g3
-
+CPPFLAGS := -g -Wall -g3 
 THRIFT_DIR := /usr/local/include/thrift
 BOOST_DIR := /usr/local/include
 

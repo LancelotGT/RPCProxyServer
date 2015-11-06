@@ -122,11 +122,11 @@ int main(int argc, char **argv) {
     cache_init(capacity, min_entry_size);
 
     int port = 9090;
-    shared_ptr<ProxyHandler> handler(new ProxyHandler());
-    shared_ptr<TProcessor> processor(new ProxyProcessor(handler));
-    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    boost::shared_ptr<ProxyHandler> handler(new ProxyHandler());
+    boost::shared_ptr<TProcessor> processor(new ProxyProcessor(handler));
+    boost::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    boost::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+    boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
     TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
     server.serve();

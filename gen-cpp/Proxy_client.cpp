@@ -28,7 +28,10 @@ int main(int argc, char **argv) {
 
     ifstream file(argv[2]);
     if (!file)
+    {
         cout << "Cannot open file." << endl;
+        exit(1);
+    }
 
     // get url list from a file
     vector<string> urls;
@@ -41,6 +44,7 @@ int main(int argc, char **argv) {
 
     timeval start, end;
     long total_time = 0;
+    int32_t cache_misses = 0;
 
     if (distribution == "normal")
     {
@@ -50,13 +54,11 @@ int main(int argc, char **argv) {
 
         for (size_t i = 0; i < MAXREQS; i++)
         {
-            cout << "Request #: "  << i << endl;
             std::string response;
 
             int d = round(dist(generator));
             while (d < 0 || d > (int) urls.size() - 1)
                 d = round(dist(generator));
-            cout << "url: " << urls[d] << endl; 
 
             gettimeofday(&start, NULL);
             client.getURL(response, urls[d].c_str());
@@ -65,8 +67,10 @@ int main(int argc, char **argv) {
             total_time += (end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec);
             std::cout << response << std::endl;  
         }      
+        cache_misses = client.getCacheMiss();
         transport->close(); 
-        cout << "Distribution: normal Total time: " << total_time / (double) 1000000 << endl;
+        cout << "Distribution: normal\tTotal time:" << total_time / (double) 1000000
+            << "\tTotal cache misses: " << cache_misses << endl;  
         return 0;
     }
     else if  (distribution == "uniform")
@@ -77,10 +81,8 @@ int main(int argc, char **argv) {
 
         for (size_t i = 0; i < MAXREQS; i++)
         {
-            cout << "Request #: "  << i << endl; 
             std::string response;
             int d = dist(generator);
-            cout << "url: " << urls[d] << endl;
 
             gettimeofday(&start, NULL); 
             client.getURL(response, urls[d].c_str());
@@ -88,8 +90,10 @@ int main(int argc, char **argv) {
 
             total_time += (end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec); 
         }      
+        cache_misses = client.getCacheMiss(); 
         transport->close(); 
-        cout << "Distribution: normal Total time: " << total_time / (double) 1000000 << endl; 
+        cout << "Distribution: normal\tTotal time:" << total_time / (double) 1000000
+            << "\tTotal cache misses: " << cache_misses << endl; 
         return 0; 
     }
     else 

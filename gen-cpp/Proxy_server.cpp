@@ -27,10 +27,13 @@ struct MemoryStruct {
     size_t size;
 };
 
+static int cache_misses;
+
 class ProxyHandler : virtual public ProxyIf {
  public:
   ProxyHandler() {
     // Your initialization goes here
+      cache_misses = 0;
   }
 
   void ping() {
@@ -54,6 +57,7 @@ class ProxyHandler : virtual public ProxyIf {
           return; 
       }
 
+      cache_misses++;
       CURL* curl;
       CURLcode res = CURLE_OK;
 
@@ -85,6 +89,10 @@ class ProxyHandler : virtual public ProxyIf {
           cache_set(url, _return);
           curl_easy_cleanup(curl); 
       }
+  }
+
+  int32_t getCacheMiss() {
+    return cache_misses;
   }
 
  private:

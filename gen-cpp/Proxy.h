@@ -23,6 +23,7 @@ class ProxyIf {
   virtual ~ProxyIf() {}
   virtual void ping() = 0;
   virtual void getURL(std::string& _return, const std::string& url) = 0;
+  virtual int32_t getCacheMiss() = 0;
 };
 
 class ProxyIfFactory {
@@ -57,6 +58,10 @@ class ProxyNull : virtual public ProxyIf {
   }
   void getURL(std::string& /* _return */, const std::string& /* url */) {
     return;
+  }
+  int32_t getCacheMiss() {
+    int32_t _return = 0;
+    return _return;
   }
 };
 
@@ -238,6 +243,98 @@ class Proxy_getURL_presult {
 
 };
 
+
+class Proxy_getCacheMiss_args {
+ public:
+
+  Proxy_getCacheMiss_args(const Proxy_getCacheMiss_args&);
+  Proxy_getCacheMiss_args& operator=(const Proxy_getCacheMiss_args&);
+  Proxy_getCacheMiss_args() {
+  }
+
+  virtual ~Proxy_getCacheMiss_args() throw();
+
+  bool operator == (const Proxy_getCacheMiss_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Proxy_getCacheMiss_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Proxy_getCacheMiss_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Proxy_getCacheMiss_pargs {
+ public:
+
+
+  virtual ~Proxy_getCacheMiss_pargs() throw();
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Proxy_getCacheMiss_result__isset {
+  _Proxy_getCacheMiss_result__isset() : success(false) {}
+  bool success :1;
+} _Proxy_getCacheMiss_result__isset;
+
+class Proxy_getCacheMiss_result {
+ public:
+
+  Proxy_getCacheMiss_result(const Proxy_getCacheMiss_result&);
+  Proxy_getCacheMiss_result& operator=(const Proxy_getCacheMiss_result&);
+  Proxy_getCacheMiss_result() : success(0) {
+  }
+
+  virtual ~Proxy_getCacheMiss_result() throw();
+  int32_t success;
+
+  _Proxy_getCacheMiss_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const Proxy_getCacheMiss_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const Proxy_getCacheMiss_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Proxy_getCacheMiss_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _Proxy_getCacheMiss_presult__isset {
+  _Proxy_getCacheMiss_presult__isset() : success(false) {}
+  bool success :1;
+} _Proxy_getCacheMiss_presult__isset;
+
+class Proxy_getCacheMiss_presult {
+ public:
+
+
+  virtual ~Proxy_getCacheMiss_presult() throw();
+  int32_t* success;
+
+  _Proxy_getCacheMiss_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class ProxyClient : virtual public ProxyIf {
  public:
   ProxyClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -269,6 +366,9 @@ class ProxyClient : virtual public ProxyIf {
   void getURL(std::string& _return, const std::string& url);
   void send_getURL(const std::string& url);
   void recv_getURL(std::string& _return);
+  int32_t getCacheMiss();
+  void send_getCacheMiss();
+  int32_t recv_getCacheMiss();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -286,11 +386,13 @@ class ProxyProcessor : public ::apache::thrift::TDispatchProcessor {
   ProcessMap processMap_;
   void process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_getURL(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_getCacheMiss(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   ProxyProcessor(boost::shared_ptr<ProxyIf> iface) :
     iface_(iface) {
     processMap_["ping"] = &ProxyProcessor::process_ping;
     processMap_["getURL"] = &ProxyProcessor::process_getURL;
+    processMap_["getCacheMiss"] = &ProxyProcessor::process_getCacheMiss;
   }
 
   virtual ~ProxyProcessor() {}
@@ -338,6 +440,15 @@ class ProxyMultiface : virtual public ProxyIf {
     return;
   }
 
+  int32_t getCacheMiss() {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->getCacheMiss();
+    }
+    return ifaces_[i]->getCacheMiss();
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -374,6 +485,9 @@ class ProxyConcurrentClient : virtual public ProxyIf {
   void getURL(std::string& _return, const std::string& url);
   int32_t send_getURL(const std::string& url);
   void recv_getURL(std::string& _return, const int32_t seqid);
+  int32_t getCacheMiss();
+  int32_t send_getCacheMiss();
+  int32_t recv_getCacheMiss(const int32_t seqid);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

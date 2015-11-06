@@ -51,7 +51,7 @@ int cache_set(const string& key, string& value)
     memused += val_size;
 
     for (deque<string>::iterator it = queue.begin(); it != queue.end(); it++)
-         cout << *it << " " << lookupTable[*it] << endl;
+         cout << *it << endl;
         
     return 0;
 }
@@ -63,7 +63,7 @@ int cache_get(const string& key, string& response)
     response = lookupTable[key];
 
     for (deque<string>::iterator it = queue.begin(); it != queue.end(); it++)
-         cout << *it << " " << lookupTable[*it] << endl;
+         cout << *it << endl;
     return 0;
 }
 

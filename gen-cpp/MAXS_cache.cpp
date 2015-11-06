@@ -14,7 +14,7 @@ static boost::unordered_map<string, string> lookupTable;
 class CompareUrl {
 public:
     bool operator() (string& url1, string& url2) {
-        return lookupTable[url1].size() >= lookupTable[url2].size();
+        return lookupTable[url1].size() <= lookupTable[url2].size();
     }
 };
 static priority_queue<string, vector<string>, CompareUrl> pq;
@@ -57,7 +57,7 @@ int cache_set(const string& key, string& value)
     memused += val_size;
 
     for (boost::unordered_map<string, string>::iterator it = lookupTable.begin(); it != lookupTable.end(); it++)
-         cout << it->first << " " << it->second << endl;
+         cout << it->first << " " << it->second.size() << endl;
         
     return 0;
 }
@@ -69,7 +69,7 @@ int cache_get(const string& key, string& response)
     response = lookupTable[key];
 
     for (boost::unordered_map<string, string>::iterator it = lookupTable.begin(); it != lookupTable.end(); it++)
-        cout << it->first << " " << it->second << endl;
+        cout << it->first << " " << it->second.size() << endl; 
     return 0;
 }
 

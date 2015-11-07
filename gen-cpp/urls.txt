@@ -5,11 +5,8 @@ http://yahoo.com
 http://blogspot.com
 http://live.com
 http://twitter.com
-http://qq.com
-http://msn.com
 http://yahoo.co.jp
 http://linkedin.com
-http://taobao.com
 http://google.co.in
 http://amazon.com
 http://wordpress.com
@@ -19,7 +16,6 @@ http://bing.com
 http://google.co.uk
 http://ebay.com
 http://yandex.ru
-http://163.com
 http://google.co.jp
 http://google.fr
 http://microsoft.com
@@ -34,15 +30,11 @@ http://apple.com
 http://google.es
 http://imdb.com
 http://google.ru
-http://sohu.com
 http://bbc.co.uk
 http://vkontakte.ru
 http://ask.com
 http://tumblr.com
-http://weibo.com
 http://go.com
 http://cnn.com
-http://youku.com
-http://soso.com
 http://google.ca
 http://aol.com

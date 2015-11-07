@@ -16,7 +16,7 @@ using namespace apache::thrift::transport;
 using namespace Proxy;
 using namespace std;
 
-#define MAXREQS 500
+#define MAXREQS 400
 
 int main(int argc, char **argv) {
     if (argc != 4)
@@ -48,13 +48,13 @@ int main(int argc, char **argv) {
 
     if (distribution == "normal")
     {
-        normal_distribution<double> dist(urls.size() / 2.0, urls.size() / 4.0);
+        std::string response; 
+        normal_distribution<double> dist(urls.size() / 2.0, urls.size() / 10.0);
         ProxyClient client(protocol);
         transport->open(); 
 
         for (size_t i = 0; i < MAXREQS; i++)
         {
-            std::string response;
 
             int d = round(dist(generator));
             while (d < 0 || d > (int) urls.size() - 1)
@@ -65,7 +65,6 @@ int main(int argc, char **argv) {
             gettimeofday(&end, NULL); 
 
             total_time += (end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec);
-            std::cout << response << std::endl;  
         }      
         cache_misses = client.getCacheMiss();
         transport->close(); 
@@ -92,7 +91,7 @@ int main(int argc, char **argv) {
         }      
         cache_misses = client.getCacheMiss(); 
         transport->close(); 
-        cout << "Distribution: normal\tTotal time:" << total_time / (double) 1000000
+        cout << "Distribution: uniform\tTotal time:" << total_time / (double) 1000000
             << "\tTotal cache misses: " << cache_misses << endl; 
         return 0; 
     }
